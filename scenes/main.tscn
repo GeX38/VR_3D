@@ -1,0 +1,162 @@
+[gd_scene load_steps=22 format=3 uid="uid://bhbfdmscogemg"]
+
+[ext_resource type="Texture2D" uid="uid://c21nsclj1f1cq" path="res://assets/textures/grass.jpg" id="1_4kyx7"]
+[ext_resource type="Script" path="res://scripts/bobik/controllers/vr/scectator.gd" id="2_03uy8"]
+[ext_resource type="Script" path="res://scripts/bobik/bobik.gd" id="2_jtgrt"]
+[ext_resource type="Script" path="res://scripts/dragon/dragon.gd" id="2_q3jxt"]
+[ext_resource type="PackedScene" uid="uid://vm8o6d3m77yi" path="res://assets/models/MegaDragon/dragon_flying.glb" id="2_x4joy"]
+[ext_resource type="Script" path="res://scripts/bobik/controllers/vr/head.gd" id="3_2ocj5"]
+[ext_resource type="Script" path="res://scripts/bobik/controllers/vr/origin.gd" id="3_bwm6t"]
+[ext_resource type="Script" path="res://scripts/bobik/controllers/vr/right_hand.gd" id="4_trgio"]
+[ext_resource type="AudioStream" uid="uid://b7rgv10gda7hk" path="res://assets/sounds/AAAAAAAAAAAAAAAAAAAAAA.mp3" id="5_ot481"]
+[ext_resource type="Script" path="res://scripts/bobik/controllers/vr/left_hand.gd" id="5_viog8"]
+[ext_resource type="PackedScene" uid="uid://bxjeceuh8yr" path="res://assets/models/hands/right_hand.glb" id="8_dhf2g"]
+[ext_resource type="PackedScene" uid="uid://sna2agmvftf0" path="res://scenes/objects/magic_sphere.tscn" id="9_ngume"]
+[ext_resource type="PackedScene" uid="uid://cc3cmdm0f1na5" path="res://assets/models/hands/left_hand.glb" id="10_areos"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xp4wt"]
+size = Vector3(1000, 0.001, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_00rod"]
+albedo_texture = ExtResource("1_4kyx7")
+metallic_specular = 1.0
+normal_enabled = true
+normal_scale = 2.76
+normal_texture = ExtResource("1_4kyx7")
+rim_enabled = true
+rim = 0.01
+rim_tint = 1.0
+rim_texture = ExtResource("1_4kyx7")
+clearcoat_roughness = 0.2
+anisotropy = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+grow = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hsvwi"]
+material = SubResource("StandardMaterial3D_00rod")
+size = Vector2(1000, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iv4my"]
+size = Vector3(3.02832, 8.90588, 7.17383)
+
+[sub_resource type="Environment" id="Environment_mqwnj"]
+background_mode = 2
+
+[sub_resource type="Environment" id="Environment_2bhsu"]
+background_mode = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nnmjd"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ff882"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_xp4wt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_hsvwi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.251275, 0.967916, 0, -0.967916, -0.251275, 0, 4113.61, 0)
+light_color = Color(1, 0.73, 0.73, 1)
+light_volumetric_fog_energy = 16.0
+
+[node name="Dragon" type="CharacterBody3D" parent="." node_paths=PackedStringArray("target_bobik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49673, -28.9635)
+collision_layer = 3
+script = ExtResource("2_q3jxt")
+target_bobik = NodePath("../MegaBobik/Bobik")
+
+[node name="MegaDragon" parent="Dragon" instance=ExtResource("2_x4joy")]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 1.44382, -1.61907)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Dragon"]
+transform = Transform3D(1, 0, 0, 0, 0.116601, 0.993179, 0, -0.993179, 0.116601, -0.0256758, 14.5647, 3.84721)
+layers = 3
+light_color = Color(1, 0, 0, 1)
+light_energy = 16.0
+spot_range = 14.7793
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dragon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.95294, 4.60059)
+shape = SubResource("BoxShape3D_iv4my")
+
+[node name="AAAAAAAAAA" type="AudioStreamPlayer3D" parent="Dragon"]
+stream = ExtResource("5_ot481")
+volume_db = 4.624
+pitch_scale = 1.5
+
+[node name="AAAAAAAAAA2" type="AudioStreamPlayer3D" parent="Dragon"]
+stream = ExtResource("5_ot481")
+volume_db = 26.821
+pitch_scale = 0.81
+
+[node name="MegaBobik" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="MegaBobik" node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.99124, 0)
+environment = SubResource("Environment_mqwnj")
+current = true
+script = ExtResource("2_03uy8")
+target = NodePath("../SubViewport/XROrigin3D/XRCamera3D")
+
+[node name="SubViewport" type="SubViewport" parent="MegaBobik"]
+use_xr = true
+size = Vector2i(0, 0)
+
+[node name="XROrigin3D" type="XROrigin3D" parent="MegaBobik/SubViewport" node_paths=PackedStringArray("player")]
+current = true
+script = ExtResource("3_bwm6t")
+player = NodePath("../../Bobik")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="MegaBobik/SubViewport/XROrigin3D"]
+environment = SubResource("Environment_2bhsu")
+current = true
+script = ExtResource("3_2ocj5")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="MegaBobik/SubViewport/XROrigin3D/XRCamera3D"]
+current = true
+
+[node name="RightHand" type="XRController3D" parent="MegaBobik/SubViewport/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78059, 0.161571, -0.0416605)
+tracker = &"right_hand"
+script = ExtResource("4_trgio")
+
+[node name="MagicSphere" parent="MegaBobik/SubViewport/XROrigin3D/RightHand" instance=ExtResource("9_ngume")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.124521, -0.0613153, 0.0839882)
+
+[node name="shoot_pivot" type="Node3D" parent="MegaBobik/SubViewport/XROrigin3D/RightHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, -0.061, 0.084)
+
+[node name="right_hand" parent="MegaBobik/SubViewport/XROrigin3D/RightHand" instance=ExtResource("8_dhf2g")]
+transform = Transform3D(-2.18557e-09, 0.05, -4.37114e-09, 0.05, 2.18557e-09, 0, -1.91069e-16, 4.37114e-09, 0.05, 0, -0.058, 0.12)
+
+[node name="sphere_shooter" type="Node3D" parent="MegaBobik/SubViewport/XROrigin3D/RightHand/right_hand"]
+transform = Transform3D(-8.74228e-07, 20, -7.64274e-14, 20, 8.74228e-07, 1.74846e-06, -1.74846e-06, -1.98523e-20, 20, 0.258913, 0, -3.56157)
+
+[node name="LeftHand" type="XRController3D" parent="MegaBobik/SubViewport/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47336, 0.106956, 0)
+tracker = &"left_hand"
+script = ExtResource("5_viog8")
+
+[node name="left_hand" parent="MegaBobik/SubViewport/XROrigin3D/LeftHand" instance=ExtResource("10_areos")]
+transform = Transform3D(2.18557e-09, -0.05, 0, 0.05, 2.18557e-09, 4.37114e-09, -4.37114e-09, -1.91069e-16, 0.05, 0, -0.058, 0.12)
+
+[node name="Bobik" type="CharacterBody3D" parent="MegaBobik"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4767, 0)
+script = ExtResource("2_jtgrt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MegaBobik/Bobik"]
+shape = SubResource("CapsuleShape3D_nnmjd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MegaBobik/Bobik"]
+mesh = SubResource("CapsuleMesh_ff882")
+
+[node name="Head" type="Node3D" parent="MegaBobik/Bobik"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.603584, 0)

@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://lqlxkm2cvrim"]
+
+[ext_resource type="Texture2D" uid="uid://cxl0081s2c3r3" path="res://assets/textures/Flare00.PNG" id="1_ljn01"]
+
+[sub_resource type="Gradient" id="Gradient_0tlrc"]
+offsets = PackedFloat32Array(0, 0.680162, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2gold"]
+gradient = SubResource("Gradient_0tlrc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fqc5q"]
+spread = 180.0
+initial_velocity_max = 20.0
+color_ramp = SubResource("GradientTexture1D_2gold")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8j7k"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+depth_draw_mode = 2
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+disable_fog = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.463333, 0.08, 1)
+albedo_texture = ExtResource("1_ljn01")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_nmjej"]
+material = SubResource("StandardMaterial3D_o8j7k")
+
+[node name="BoomBabah" type="GPUParticles3D"]
+amount = 20
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_fqc5q")
+draw_pass_1 = SubResource("QuadMesh_nmjej")
